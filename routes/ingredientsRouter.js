@@ -1,10 +1,9 @@
 import { Router } from 'express';
-import {  getAllIngredients,getSingleIngredient, createIngredient, updateIngredient, deleteIngredient } from '../controllers/Ingredients.js';
+import {  getAllIngredients, createIngredient } from '../controllers/ingredients.js';
 
-const IngredientsRouter = Router();
+const ingredientsRouter = Router();
 
-IngredientsRouter.route('/').get(getAllIngredients).post(createIngredient);
-IngredientsRouter.route('/:id').get(getSingleIngredient).put(updateIngredient).delete(deleteIngredient);
+ingredientsRouter.route('/').get(getAllIngredients).post(createIngredient);
 
 
-export default IngredientsRouter;
+export default ingredientsRouter;
