@@ -1,4 +1,4 @@
-import asyncHandler from "../utils/asyncHandler";
+import asyncHandler from "../utils/asyncHandler.js";
 
 export const getAllProducts = asyncHandler(async(req,res,next) => res.send('GET All'));
 
