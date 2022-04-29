@@ -1,5 +1,5 @@
 import asyncHandler from "../utils/asyncHandler.js";
-import Product from "../models/product";
+import Product from "../models/product.js";
 
 export const getAllProducts = asyncHandler(async (req, res, next) =>
   res.send("GET All")
