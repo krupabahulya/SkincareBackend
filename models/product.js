@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+const { Schema, model } = mongoose;
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -11,4 +12,4 @@ const productSchema = new mongoose.Schema({
   ingredients: { type: [String], required: true },
 });
 
-module.exports = mongoose.model("Product", productSchema);
+export default model('Product', productSchema);

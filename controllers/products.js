@@ -1,5 +1,5 @@
 import asyncHandler from "../utils/asyncHandler.js";
-import Product from "../models/product";
+import Product from "../models/product.js";
 
 export const getAllProducts = asyncHandler(async (req, res, next) =>
   res.send("GET All")
@@ -11,4 +11,12 @@ export const getSingleProduct = asyncHandler(async (req, res, next) =>
 
 export const createProduct = asyncHandler(async (req, res, next) =>
   res.send("POST")
+);
+
+export const updateProduct = asyncHandler(async (req, res, next) =>
+  res.send("UPDATE")
+);
+
+export const deleteProduct = asyncHandler(async (req, res, next) =>
+  res.send("DELETE")
 );

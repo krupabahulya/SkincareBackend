@@ -6,10 +6,3 @@ try {
   console.log(error);
 }
 
-mongoose.connect(
-  `${process.env.CONNECTION_MONGOOSE}`,
-  () => {
-    console.log("Connected");
-  },
-  (e) => console.error(e)
-);
