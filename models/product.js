@@ -9,7 +9,7 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   treatment: String,
   recommendedFor: { type: [String], required: true },
-  ingredients: { type: [String], required: true },
+  ingredients: { type: [mongoose.Schema.Types.ObjectId], ref: "Ingredient" },
 });
 
 export default model('Product', productSchema);

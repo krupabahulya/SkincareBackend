@@ -4,7 +4,6 @@ import Product from "../models/product.js";
 export const getAllProducts = asyncHandler(async (req, res, next) =>{
   console.log(req.query);
 const products = await Product.find(req.query);
-
 res.send(products)
 });
 
