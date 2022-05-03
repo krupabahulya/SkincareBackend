@@ -8,7 +8,9 @@ const productSchema = new mongoose.Schema({
   category: { type: String, required: true },
   treatment: String,
   recommendedFor: { type: [String], required: true },
-  ingredients: { type: [String], required: true },
+  ingredients: { type: [mongoose.Schema.Types.ObjectId], ref: "Ingredient" },
 });
 
-export default mongoose.model("Product", productSchema);
+const Product = mongoose.model("Product", productSchema);
+
+export default Product;
