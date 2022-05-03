@@ -15,6 +15,54 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get all products recommended for oily
+
+router.get("/oily", async (req, res) => {
+  try {
+    const products = await Product.find({ recommendedFor: "Oily" });
+    res.send(products);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error.message);
+  }
+});
+
+// Get all products recommended for dry
+
+router.get("/dry", async (req, res) => {
+  try {
+    const products = await Product.find({ recommendedFor: "Dry" });
+    res.send(products);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error.message);
+  }
+});
+
+// Get all products recommended for combination
+
+router.get("/combination", async (req, res) => {
+  try {
+    const products = await Product.find({ recommendedFor: "Combination" });
+    res.send(products);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error.message);
+  }
+});
+
+// Get all products recommended for normal
+
+router.get("/normal", async (req, res) => {
+  try {
+    const products = await Product.find({ recommendedFor: "Normal" });
+    res.send(products);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error.message);
+  }
+});
+
 // Create a new product
 
 router.post("/", async (req, res) => {
