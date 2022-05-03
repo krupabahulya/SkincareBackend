@@ -1,14 +1,19 @@
 import express from "express";
-import productsRouter from "./routes/productsRouter.js";
+import products from "./controllers/products.js";
 import ingredientsRouter from "./routes/ingredientsRouter.js";
-import asyncHandler from "./utils/asyncHandler.js";
 import "./db/index.js";
+import dotenv from "dotenv";
+import cors from "cors";
 
 const app = express();
-const port = process.env.PORT || 3000;
+dotenv.config();
 
+app.use(cors());
 app.use(express.json());
-app.use("/products", productsRouter);
+
+const port = process.env.PORT || 50500;
+
+app.use("/products", products);
 app.use("/ingredients", ingredientsRouter);
 app.use("*", (req, res) => res.sendStatus(404));
 

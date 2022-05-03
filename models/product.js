@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-const { Schema, model } = mongoose;
 
 const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -12,4 +11,6 @@ const productSchema = new mongoose.Schema({
   ingredients: { type: [mongoose.Schema.Types.ObjectId], ref: "Ingredient" },
 });
 
-export default model('Product', productSchema);
+const Product = mongoose.model("Product", productSchema);
+
+export default Product;

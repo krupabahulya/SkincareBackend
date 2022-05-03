@@ -1,4 +1,4 @@
-import { Router } from "express";
+/* import { Router } from "express";
 import {
   getAllProducts,
   getSingleProduct,
@@ -16,3 +16,4 @@ ProductsRouter.route("/:id")
   .delete(deleteProduct);
 
 export default ProductsRouter;
+ */
