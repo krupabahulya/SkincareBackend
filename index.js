@@ -11,7 +11,7 @@ dotenv.config();
 app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT || 50500;
+const port = process.env.PORT || 5050;
 
 app.use("/products", products);
 app.use("/ingredients", ingredientsRouter);
