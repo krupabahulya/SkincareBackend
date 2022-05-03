@@ -38,6 +38,7 @@ router.post("/", async (req, res) => {
     res.status(500).send(error.message);
     console.log(error.message);
   }
+
 });
 
 // Update a product by ID
