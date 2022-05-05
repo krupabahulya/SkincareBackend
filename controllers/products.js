@@ -3,60 +3,21 @@ import express from "express";
 
 const router = express.Router();
 
-// Get a list of all the products
+// Get a list of all the products or products by skintype
 
 router.get("/", async (req, res) => {
   try {
-    console.log(req.query);
-    const products = await Product.find(req.query);
-    res.send(products);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error.message);
-  }
-});
-
-// Get all products recommended for oily
-
-router.get("/oily", async (req, res) => {
-  try {
-    const products = await Product.find({ recommendedFor: "Oily" });
-    res.send(products);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error.message);
-  }
-});
-
-// Get all products recommended for dry
-
-router.get("/dry", async (req, res) => {
-  try {
-    const products = await Product.find({ recommendedFor: "Dry" });
-    res.send(products);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error.message);
-  }
-});
-
-// Get all products recommended for combination
-
-router.get("/combination", async (req, res) => {
-  try {
-    const products = await Product.find({ recommendedFor: "Combination" });
-    res.send(products);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error.message);
-  }
-});
-
-// Get all products recommended for normal
-
-router.get("/normal", async (req, res) => {
-  try {
-    const products = await Product.find({ recommendedFor: "Normal" });
+    const {
+      query: { recommendedFor },
+    } = req;
+    let query = {};
+    if (recommendedFor) {
+      query.recommendedFor =
+        recommendedFor.charAt(0).toUpperCase() +
+        recommendedFor.slice(1).toLowerCase();
+    }
+    console.log(query);
+    const products = await Product.find(query).populate("ingredients");
     res.send(products);
   } catch (error) {
     res.status(500).send(error.message);
@@ -87,7 +48,6 @@ router.post("/", async (req, res) => {
     res.status(500).send(error.message);
     console.log(error.message);
   }
-
 });
 
 // Update a product by ID
