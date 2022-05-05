@@ -3,18 +3,26 @@ import express from "express";
 
 const router = express.Router();
 
-// Get a list of all the products or products by skintype
+// Get a list of all the products / products by skintype / products by category
 
 router.get("/", async (req, res) => {
   try {
     const {
-      query: { recommendedFor },
+      query: { recommendedFor, category },
     } = req;
     let query = {};
     if (recommendedFor) {
       query.recommendedFor =
         recommendedFor.charAt(0).toUpperCase() +
         recommendedFor.slice(1).toLowerCase();
+    }
+    if (category) {
+      query.category = category
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
     }
     console.log(query);
     const products = await Product.find(query).populate("ingredients");
