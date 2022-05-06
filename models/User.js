@@ -3,7 +3,7 @@ const { Schema, model, ObjectId } = mongoose;
 
 const routineSchema = new Schema({
   name: { type: String, required: [true, "Name is required"] },
-  products: { type: [ObjectId], required: [true, "Products is required"] },
+  products: { type: [ObjectId], required: [true, "Products are required"] },
 });
 
 const userSchema = new Schema({
