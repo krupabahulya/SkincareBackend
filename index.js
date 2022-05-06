@@ -3,6 +3,7 @@ import express from "express";
 import products from "./controllers/products.js";
 import ingredientsRouter from "./routes/ingredientsRouter.js";
 import authRouter from './routes/authRouter.js';
+import routinesRouter from "./routes/routinesRouter.js";
 import "./db/index.js";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -19,6 +20,7 @@ const port = process.env.PORT || 5050;
 app.use("/products", products);
 app.use("/ingredients", ingredientsRouter);
 app.use("/auth", authRouter);
+app.use("/routines", routinesRouter);
 app.use("*", (req, res) => res.sendStatus(404));
 
 app.listen(port, () =>
