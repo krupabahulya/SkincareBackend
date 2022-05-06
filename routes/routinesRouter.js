@@ -1,16 +1,17 @@
-import { Router } from "express";
-import {} from "../controllers/routines.js";
+/* import { Router } from "express";
+import { getRoutinesForUser, createRoutineForUser } from "../controllers/routines.js";
 
-const rotuinesRouter = Router();
+const routinesRouter = Router();
 
-rotuinesRouter
+routinesRouter
   .route("/user/:userId/routines")
   .get(getRoutinesForUser)
   .post(createRoutineForUser);
 
-rotuinesRouter
-  .route("/user/:userId/routines/:routineId")
-  .put(updateRoutine)
-  .delete(deleteRoutine);
+// routinesRouter
+//   .route("/user/:userId/routines/:routineId")
+//   .put(updateRoutine)
+//   .delete(deleteRoutine);
 
-export default rotuinesRouter;
+export default routinesRouter;
+ */
