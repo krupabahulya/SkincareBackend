@@ -1,4 +1,4 @@
-import { Router } from "express";
+/* import { Router } from "express";
 import { getRoutinesForUser, createRoutineForUser } from "../controllers/routines.js";
 
 const routinesRouter = Router();
@@ -14,3 +14,4 @@ routinesRouter
 //   .delete(deleteRoutine);
 
 export default routinesRouter;
+ */
