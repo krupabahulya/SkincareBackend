@@ -1,7 +1,7 @@
-/* import { Router } from "express";
+import { Router } from "express";
 import {
   getAllProducts,
-  getSingleProduct,
+  getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -11,9 +11,8 @@ const ProductsRouter = Router();
 
 ProductsRouter.route("/").get(getAllProducts).post(createProduct);
 ProductsRouter.route("/:id")
-  .get(getSingleProduct)
+  .get(getProductById)
   .put(updateProduct)
   .delete(deleteProduct);
 
 export default ProductsRouter;
- */

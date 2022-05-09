@@ -1,14 +1,31 @@
 import Product from "../models/product.js";
-import express from "express";
+import asyncHandler from "../utils/asyncHandler.js";
+import ErrorResponse from "../utils/ErrorResponse.js";
 
-const router = express.Router();
+// Get a list of all the products
 
-// Get a list of all the products / products by skintype / products by category
+export const getAllProducts = asyncHandler(async (req, res, next) => {
+  console.log(req.query);
+  const products = await Product.find(req.query).populate("ingredients");
+  res.json(products);
+});
 
-router.get("/", async (req, res) => {
+// Get product by id
+
+export const getProductById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const product = await Product.findById(id).populate("ingredients");
+  if (!product)
+    throw new ErrorResponse(`Product with id of ${id} doesn't exist`, 404);
+  res.json({
+    data: product,
+  });
+});
+
+export const getProductByQuery = asyncHandler(async (req, res) => {
   try {
     const {
-      query: { recommendedFor, category },
+      query: { recommendedFor, category, name, brand },
     } = req;
     let query = {};
     if (recommendedFor) {
@@ -18,6 +35,22 @@ router.get("/", async (req, res) => {
     }
     if (category) {
       query.category = category
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+    }
+    if (name) {
+      query.name = name
+        .split(" ")
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+    }
+    if (brand) {
+      query.brand = brand
         .split(" ")
         .map(
           (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
@@ -35,82 +68,35 @@ router.get("/", async (req, res) => {
 
 // Create a new product
 
-router.post("/", async (req, res) => {
-  const { name, brand, imageURL, URL, category, recommendedFor, ingredients } =
-    req.body;
-
-  let product = new Product({
-    name,
-    brand,
-    imageURL,
-    URL,
-    category,
-    recommendedFor,
-    ingredients,
-  });
-
-  try {
-    product = await product.save();
-    res.send(product);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error.message);
-  }
+export const createProduct = asyncHandler(async (req, res, next) => {
+  const { body } = req;
+  const newProduct = await Product.create(body);
+  res.status(201).json(newProduct);
 });
 
 // Update a product by ID
 
-router.put("/:id", async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-
-    if (!product) return res.status(404).send("Product not found...");
-
-    const {
-      name,
-      brand,
-      imageURL,
-      URL,
-      category,
-      recommendedFor,
-      ingredients,
-    } = req.body;
-
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      {
-        name,
-        brand,
-        imageURL,
-        URL,
-        category,
-        recommendedFor,
-        ingredients,
-      },
-      { new: true }
-    );
-
-    res.send(updatedProduct);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error.message);
-  }
+export const updateProduct = asyncHandler(async (req, res) => {
+  const {
+    body,
+    params: { id },
+  } = req;
+  const updatedProduct = await Product.findOneAndUpdate({ _id: id }, body, {
+    new: true,
+  });
+  if (!updatedProduct)
+    throw new ErrorResponse(`Product with id of ${id} doesn't exist`, 404);
+  res.json(updatedProduct);
 });
 
 // Delete a Product by ID
 
-router.delete("/:id", async (req, res) => {
-  try {
-    const product = await Product.findById(req.params.id);
-
-    if (!product) return res.status(404).send("Product not found...");
-
-    const deletedProduct = await Product.findByIdAndDelete(req.params.id);
-    res.send(deletedProduct);
-  } catch (error) {
-    res.status(500).send(error.message);
-    console.log(error.message);
-  }
+export const deleteProduct = asyncHandler(async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+  const deleted = await Product.findByIdAndDelete(id);
+  if (!deleted)
+    throw new ErrorResponse(`Product with id of ${id} doesn't exist`, 404);
+  res.json({ success: `Product with id of ${id} was deleted` });
 });
-
-export default router;
