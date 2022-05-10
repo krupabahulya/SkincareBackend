@@ -1,7 +1,12 @@
+import mongoose from "mongoose";
 import User from "../models/User.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
 // Get a list of all the routines from one user
+
+const {
+  Types: { ObjectId },
+} = mongoose;
 
 export const getRoutinesForUser = asyncHandler(async (req, res, next) => {
   try {
@@ -21,6 +26,31 @@ export const getRoutinesForUser = asyncHandler(async (req, res, next) => {
         },
       });
     res.send(routines);
+  } catch (error) {
+    res.status(500).send(error.message);
+    console.log(error.message);
+  }
+});
+
+// Get routine by ID
+
+export const getRoutineById = asyncHandler(async (req, res, next) => {
+  try {
+    const {
+      params: { userId, routineId },
+      user,
+    } = req;
+    if (user._id.toString() !== userId)
+      throw new Error("Authorization token invalid");
+
+    const [routine] = await User.aggregate()
+      .unwind("routines")
+      .match({ "routines._id": ObjectId(routineId) });
+
+    if (!routine)
+      return res.status(404).json({ error: "Routine not found..." });
+
+    res.json(routine);
   } catch (error) {
     res.status(500).send(error.message);
     console.log(error.message);
@@ -69,7 +99,6 @@ export const updateRoutine = asyncHandler(async (req, res) => {
     } = req;
     if (user._id.toString() !== userId)
       throw new Error("Authorization token invalid");
-    console.log(products);
     const { acknowledged } = await User.updateOne(
       { _id: userId, "routines._id": routineId },
       { $set: { "routines.$.name": name, "routines.$.products": products } },
