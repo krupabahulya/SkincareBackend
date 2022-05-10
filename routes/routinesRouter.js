@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   getRoutinesForUser,
+  getRoutineById,
   createRoutineForUser,
   updateRoutine,
   deleteRoutine,
@@ -16,6 +17,7 @@ routinesRouter
 
 routinesRouter
   .route("/user/:userId/routines/:routineId")
+  .get(verifyToken, getRoutineById)
   .put(verifyToken, updateRoutine)
   .delete(verifyToken, deleteRoutine);
 
