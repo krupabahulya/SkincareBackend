@@ -61,6 +61,7 @@ export const getRoutineById = asyncHandler(async (req, res, next) => {
 
 export const createRoutineForUser = asyncHandler(async (req, res, next) => {
   try {
+    console.log(req.body);
     const {
       body: { name, products },
       params: { userId },
@@ -140,12 +141,17 @@ export const deleteRoutine = asyncHandler(async (req, res) => {
       { _id: userId },
       { $pull: { routines: { _id: routineId } } },
       { new: true }
-    ).select("routines");
+    )
+      .select("routines")
+      .populate({
+        path: "routines",
+        populate: {
+          path: "products",
+          model: "Product",
+        },
+      });
 
-    if (!routines.length)
-      return res.status(404).json({ error: "Routine not found..." });
-
-    res.json({ success: `Routine with id of ${routineId} was deleted` });
+    res.json(routines);
   } catch (error) {
     res.status(500).json(error.message);
     console.log(error.message);
